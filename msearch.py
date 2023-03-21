@@ -27,6 +27,7 @@ class Search:
                                                      jarowinkler_similarity(e[1], self.title)), reverse=True)
 
 
-print(Search('terten', ['epic lebron james']).by_title(), 'by title res')
-print(Search('terten', ['epic lebron james']).by_tags(), 'by title res')
-print(Search('epic lebron james', ['epic lebron james']).search(), 'by title res')
+if __name__ == '__main__':
+    print(Search('terten', ['epic lebron james']).by_title(), 'by title res')
+    print(Search('terten', ['epic lebron james']).by_tags(), 'by title res')
+    print(Search('epic lebron james', ['epic lebron james']).search(), 'by title res')
