@@ -1,6 +1,7 @@
 import mdatabase
 import requests
 import os
+import stt
 
 
 class Entry:
@@ -12,16 +13,19 @@ class Entry:
 
     """
 
-    def __init__(self, attachment_url, title, tags):
+    def __init__(self, attachment_url, title, tags=''):
         self.attachment_url = attachment_url
-        self.title = title
         self.tags = tags
+        self.title = title
         self.filename = '_'.join(title.split())
         self.filepath = os.environ.get('MEMEDATAFILEPATH')
 
     def save_to_database(self):
-        if mdatabase.DataBase().insert_row(file_name=self.filename, title=self.title, tags=self.tags):
-            self.save_to_folder()
+        if not self.save_to_folder():
+            return False
+        speech = stt.Stt(self.filename).get_speech()
+        if mdatabase.DataBase().insert_row(file_name=self.filename, title=self.title, tags=self.tags, speech=speech):
+            print('done')
             return True
         return False
 
@@ -35,16 +39,12 @@ class Entry:
             print(f'Bad request {self.attachment_url}')
             return False
         except requests.exceptions.MissingSchema:
-            print('No scheme supplied')
+            print('No scheme supplied invalid url')
+            return False
         with open(fr'{self.filepath}\{self.filename}.mp4', 'wb') as file:
             file.write(r.content)
         return True
 
 
 if __name__ == '__main__':
-    ...
-    #Entry('testurl','testentry','test test tags').save_to_database()
-    #Entry('urltester', 'mega fart', 'test test tags').save_to_database()
-    #Entry('funny_meme', 'toot memes e', 'tooting toot meme').save_to_database()
-    #Entry('fart_meme', 'epic lebron james', 'epic ding dong').save_to_database()
-    #Entry('fart_meme', 'not epic lebron james', 'epic lebron james epic lebron james epic lebron james').save_to_database()
+    #print(os.environ.get('MEMEDATAFILEPATH'))
