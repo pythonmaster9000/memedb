@@ -3,6 +3,7 @@ import pymysql.cursors
 
 class DataBase:
     """
+        TODO: Add backup dump function to happen every day
         Represents interactions with database.
         Grabbing all data from database
         Storing new entries with:
@@ -26,8 +27,8 @@ class DataBase:
             print('ProgrammingError')
             return False
 
-    def insert_row(self, file_name, title, tags):
-        command = f'INSERT INTO `memes`(file_name,title,tags)\nVALUES("{file_name}", "{title}", "{tags}")'
+    def insert_row(self, file_name, title, tags, speech=''):
+        command = f'INSERT INTO `memes`(file_name,title,tags,speech)\nVALUES("{file_name}", "{title}", "{tags}", "{speech}") '
         try:
             self.cur.execute(command)
             self.connection.commit()
@@ -39,5 +40,7 @@ class DataBase:
             print('OperationalError')
             return False
 
+
 if __name__ == '__main__':
+    print(DataBase().grab_all_data())
     ...
