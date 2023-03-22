@@ -2,10 +2,11 @@ import mdatabase
 import requests
 import os
 import stt
-
+import compression
 
 class Entry:
     """
+        TODO : Check size of video
         Represents a new meme entry to the database which includes:
         attachment url from discord message
         title given by user
@@ -19,7 +20,7 @@ class Entry:
         self.title = title
         self.filename = '_'.join(title.split())
         self.filepath = os.environ.get('MEMEDATAFILEPATH')
-
+        self.Compress = compression.Compress(self.filename)
     def save_to_database(self):
         if not self.save_to_folder():
             return False
@@ -43,8 +44,17 @@ class Entry:
             return False
         with open(fr'{self.filepath}\{self.filename}.mp4', 'wb') as file:
             file.write(r.content)
+        if self.Compress.check_size():
+            return True
+        self.Compress.compress()
+        print('compressed')
         return True
 
 
 if __name__ == '__main__':
+    #f = Entry('nothing', 'elon ma')
+    #print(compression.Compress(f.filename).check_size())
     #print(os.environ.get('MEMEDATAFILEPATH'))
+    #f = Entry('https://cdn.discordapp.com/attachments/743195774518689814/1084338837213413386/2023-01-20_21-49-03_UTC.mp4','you cant park there')
+    #f.save_to_database()
+    ...
