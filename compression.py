@@ -41,7 +41,7 @@ class Compress:
                       **{'c:v': 'libx264', 'b:v': file_bitrate, 'pass': 1, 'f': 'mp4'}
                       ).overwrite_output().run()
         suffix = 1
-        while not msearch.Search(f'{self.filename}{suffix}'):
+        while not msearch.Search(f'{self.filename}{suffix}').is_in_filename():
             suffix += 1
         ffmpeg.output(i, fr'{self.filepath}\{self.filename}{suffix}.mp4',
                       **{'c:v': 'libx264', 'b:v': file_bitrate, 'pass': 2, 'c:a': 'aac', 'b:a': audio_bitrate}
