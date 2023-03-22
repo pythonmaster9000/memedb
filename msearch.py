@@ -18,6 +18,9 @@ class Search:
         self.tags = tags + [i for i in title.split()]
         self.dbdump = mdatabase.DataBase().grab_all_data()
 
+    def is_in_filename(self):
+        return self.title in [i[0] for i in self.dbdump]
+
     def by_speech(self, history=3):
         matches = []
         for entry in self.dbdump:
@@ -55,5 +58,4 @@ class Search:
 
 
 if __name__ == '__main__':
-    # print(Search('mate').search())
-    #print(Search('mate').by_speech())
+    print(Search('elon_ma1').is_in_filename())
