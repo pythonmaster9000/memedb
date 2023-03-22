@@ -57,7 +57,11 @@ async def search(ctx, *inquiry):
     else:
         results = msearch.Search(' '.join(inquiry)).search()
         print(results)
-        file = discord.File(rf'{filepath}\{results[0][0]}.mp4')
+        try:
+            file = discord.File(rf'{filepath}\{results[0][0]}.mp4')
+        except FileNotFoundError:
+            await ctx.send('filepath found in database has been deleted or altered')
+            return
         print('res',results[0][0])
         try:
             await ctx.send(file=file, content=f'Found {results[0][1]}. Other results: {" , ".join([i[1] for i in results[1:]])}')
@@ -82,6 +86,6 @@ async def searchtext(ctx, *text):
     print(results)
     file = discord.File(rf'{filepath}\{results[0][1][0]}.mp4')
     await ctx.send(file=file, content=f'Found {results[0][1][1]}. Other results from speech to text: {" , ".join([i[1][1] for i in results[1:]])}')
-client.run('')
+client.run('MTA3OTA5NDczNjM4NTc0NDkyOQ.GGqBlA.zON0e_e22b5khf78SL45j49UssOBGhsiWwSudE')
 
-# TODO : get rid of this aids and compress the videos
+# TODO : get rid of this aids
