@@ -15,6 +15,8 @@ class Entry:
     """
 
     def __init__(self, attachment_url, title, tags=''):
+        title = ''.join([i if i.isalnum() or i == ' ' else '' for i in title])
+        tags = ''.join([i if i.isalnum() or i == ' ' else '' for i in tags])
         self.attachment_url = attachment_url
         self.tags = tags
         self.title = title
